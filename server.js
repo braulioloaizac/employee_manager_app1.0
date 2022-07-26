@@ -1,32 +1,98 @@
-const express = require('express');
-const mysql = require('mysql2');
+const inquirer = require('inquirer');
+const querys = require('./querysfile');
 
-// Connect to database
-const db = mysql.createConnection(
-    {
-      host: 'localhost',
-      // Your MySQL username,
-      user: 'root',
-      // Your MySQL password
-      password: '3136168340bB.',
-      database: 'election'
+
+const options = [
+    'View All Departments',
+    'View All Roles',
+    'View All Employees',
+    'Add A Department',
+    'Add A Role',
+    'Add An Employee',
+    'Update An Employee Role'
+]
+
+const questions = [
+   
+    {   
+        type: 'list',
+        name: 'option',
+        message: 'What would you like to do? ',
+        choices: options
+    }
+]
+
+const roleQuestions=[
+    {   
+        type: 'input',
+        name: 'title',
+        message: 'Enter Title Name: '
     },
-    console.log('Connected to the election database.')
-  );
+    {   
+        type: 'input',
+        name: 'salary',
+        message: 'Enter Salary: '
+    },
+    {   
+        type: 'input',
+        name: 'department_id',
+        message: 'Enter Department ID: '
+    }
+]
+    
 
 
-const PORT = process.env.PORT || 3001;
-const app = express();
 
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+function init(){
+   
+    // console.log(art.create("Some Text", 'doom',true))
+    
 
-// Default response for any other request (Not Found)
-app.use((req, res) => {
-  res.status(404).end();
-});
+        inquirer.prompt(questions).then((answer) => {
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+            if(answer.option === options[0]){
+                querys.viewDpt();
+            }
+    
+            if(answer.option === options[1]){
+                querys.viewRol();
+            }
+    
+            if(answer.option === options[2]){
+                querys.viewEmp();
+            }
+    
+            if(answer.option === options[3]){
+                inquirer
+                .prompt(
+                    {   
+                        type: 'input',
+                        name: 'department',
+                        message: 'Enter Department Name: '
+                    }
+                )
+                .then((answer) => {
+                    querys.addDpt(answer.department);
+                })
+            }
+            
+            if(answer.option === options[4]){
+                inquirer
+                .prompt(roleQuestions)
+                .then((answer) => {
+                    querys.addRol(answer.title, answer.salary, answer.department_id);
+                })
+            }
+            
+            if(answer.option === options[5]){
+                querys.addEmp();
+            }
+    
+            if(answer.option === options[6]){
+                querys.upEmpRol();
+            }
+            
+        })
+    }
+
+init();
