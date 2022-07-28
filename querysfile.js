@@ -16,8 +16,7 @@ const db = mysql.createConnection(
   );
 
 
-
-
+  
 
 const viewDpt = () => {
     const sql = `SELECT id AS Id, name AS Department FROM department;`;
@@ -30,7 +29,7 @@ const viewDpt = () => {
         
         const table = cTable.getTable(results);
         console.log(table);
-        
+
 
   });
 }
@@ -129,7 +128,6 @@ const addRol = (title, salary, department_id) => {
 
 
 
-
 const addEmp = (first_name, last_name, role_id, manager_id) => {
   const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
               VALUES 	(?,?,?,?);`;
@@ -142,8 +140,6 @@ const addEmp = (first_name, last_name, role_id, manager_id) => {
       console.log(`${first_name} added`);
 });
 }
-
-
 
 
 
@@ -161,4 +157,52 @@ const upEmpRol = (role_id, id) => {
 
 }
 
-module.exports = { viewDpt, viewRol, viewEmp, addDpt, addRol, addEmp, upEmpRol };
+
+
+const upEmpMan = (manager_id, id) => {
+  const sql = `UPDATE employee SET manager_id = ? WHERE id = ?;`;
+
+  db.query(sql, [ parseInt(manager_id), parseInt(id)], (err, results) => {
+    if (err) {
+      console.log(err)
+      return;
+    }
+    console.log(`Manager of employee #${id} updated`);
+  });
+
+}
+
+
+
+const viewEmpMan = (manager_id) => {
+  const sql = `
+  SELECT  e.id AS id, 
+          e.first_name AS first_name,
+          e.last_name AS last_name, 
+          e.manager_id AS manager, 
+          r.title AS title, 
+          r.salary AS salary,
+          d.name AS department
+  FROM employee_traker.employee AS e
+  JOIN employee_traker.role AS r
+  ON e.role_id = r.id
+  JOIN employee_traker.department AS d
+  ON r.department_id = d.id
+  WHERE e.manager_id = ?
+  `;
+
+  db.query(sql,[parseInt(manager_id)], (err, results) => {
+      if (err) {
+      console.log(err)
+      return;
+      }
+      
+      const table = cTable.getTable(results);
+      console.log(table);
+});
+}
+
+
+
+
+module.exports = { viewDpt, viewRol, viewEmp, addDpt, addRol, addEmp, upEmpRol, upEmpMan, viewEmpMan };
