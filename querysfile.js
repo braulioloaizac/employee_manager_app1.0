@@ -30,6 +30,7 @@ const viewDpt = () => {
         
         const table = cTable.getTable(results);
         console.log(table);
+        
 
   });
 }

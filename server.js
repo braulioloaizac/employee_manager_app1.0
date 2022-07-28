@@ -105,29 +105,18 @@ async function init(){
         inquirer.prompt(question).then((answer) => {
 
             if(answer.option === options[0]){
-                
-                    const sql = `SELECT id AS Id, name AS Department FROM department;`;
-                
-                    db.execute(sql, (err, results) => {
-                        if (err) {
-                          console.log(err)
-                        return;
-                        }
-                        
-                        const table = cTable.getTable(results);
-                        console.log(table);
-                
-                  });
-                
-                
+                querys.viewDpt();    
+                init();
             }
     
             if(answer.option === options[1]){
                 querys.viewRol();
+                init();
             }
     
             if(answer.option === options[2]){
                 querys.viewEmp();
+                init();
             }
     
             if(answer.option === options[3]){
@@ -141,6 +130,7 @@ async function init(){
                 )
                 .then((answer) => {
                     querys.addDpt(answer.department);
+                    init();
                 })
             }
             
@@ -149,6 +139,7 @@ async function init(){
                 .prompt(roleQuestions)
                 .then((answer) => {
                     querys.addRol(answer.title, answer.salary, answer.department_id);
+                    init();
                 })
             }
             
@@ -157,6 +148,7 @@ async function init(){
                 .prompt(employeeQuestions)
                 .then((answer) => {
                     querys.addEmp(answer.first_name, answer.last_name, answer.role_id, answer.manager_id);
+                    init();
                 })
                 
             }
@@ -166,6 +158,7 @@ async function init(){
                     .prompt(updateQuestions)
                     .then((answer) => {
                         querys.upEmpRol(answer.role_id, answer.id);
+                        init();
                     }
                     )
             }
