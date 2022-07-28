@@ -125,4 +125,39 @@ const addRol = (title, salary, department_id) => {
 });
 }
 
-module.exports = { viewDpt, viewRol, viewEmp, addDpt, addRol };
+
+
+
+
+const addEmp = (first_name, last_name, role_id, manager_id) => {
+  const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+              VALUES 	(?,?,?,?);`;
+
+  db.query(sql,[ first_name,  last_name, parseInt(role_id), parseInt(manager_id)], (err, results) => {
+      if (err) {
+        console.log(err)
+      return;
+      }
+      console.log(`${first_name} added`);
+});
+}
+
+
+
+
+
+
+const upEmpRol = (role_id, id) => {
+  const sql = `UPDATE employee SET role_id = ? WHERE id = ?;`;
+
+  db.query(sql, [ parseInt(role_id), parseInt(id)], (err, results) => {
+    if (err) {
+      console.log(err)
+      return;
+    }
+    console.log(`Role of employee #${id} updated`);
+  });
+
+}
+
+module.exports = { viewDpt, viewRol, viewEmp, addDpt, addRol, addEmp, upEmpRol };
