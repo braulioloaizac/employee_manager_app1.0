@@ -14,7 +14,7 @@ This application allow you to manage a company database, including the employees
 
 
 ## Installation
-First you have to clone the repo, run the seed.db file loging into mysql with your account and writing db/seed.sql and then you have to run the code typing node server.js and choose the option that you want.
+First you have to clone the repo, run the seed.db file loging into mysql with your account and run the schema.sql first and next the seed.sql using source db/(filename.sql) and then you have to run the code typing node server.js and choose the option that you want.
 
 ## Usage
 If you want to add an employee you have to choose that option and then bring his/her first name, last name, role id (be sure to check the roles table first) and his/her manager id.
