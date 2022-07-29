@@ -12,7 +12,7 @@ const db = mysql.createConnection(
       password: process.env.password,
       database: 'employee_traker'
     },
-    console.log('Connected to the database.')
+    //console.log('Connected to the database.')
   );
 
 
