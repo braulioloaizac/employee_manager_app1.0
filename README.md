@@ -6,7 +6,7 @@ This application allow you to manage a company database, including the employees
 
 
 
-## Table of Contents (Optional)
+## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
